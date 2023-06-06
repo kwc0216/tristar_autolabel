@@ -4,12 +4,10 @@ This repository contains the support code for "[Your Dataset Paper Title]" (link
 
 ## Table of Contents
 1. [Installation](#installation)
-2. [Data Description](#data-description)
-3. [Usage](#usage)
-4. [Examples](#examples)
-5. [Contributing](#contributing)
-6. [License](#license)
-7. [Citation](#citation)
+2. [Usage](#usage)
+3. [Examples](#examples)
+4. [Visualization](#visualization)
+5. [Citation](#citation)
 
 ## Installation
 
@@ -20,3 +18,10 @@ git clone https://github.com/anonymous/tristar.git
 cd tristar
 pip install -r requirements.txt
 ```
+## Usage
+
+## Examples
+
+## Visualization
+
+## Citation
