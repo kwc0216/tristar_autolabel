@@ -9,12 +9,11 @@ from lightning import Trainer
 from lightning.pytorch.callbacks import ModelCheckpoint
 from lightning.pytorch.loggers import WandbLogger
 
-from multimodal.models.deeplabv3 import HumanSegmentationDeepLabV3
-from multimodal.models.multi_label_action import MultiLabelActionClassifier
-from multimodal.models.dependent_action import DependentActionClassifier
-from multimodal.models.movinet import ActionClassificationMoViNet
-from multimodal.models.unet import HumanSegmentationUnet
-from multimodal.data.dataloaders import ActionClassificationRGBDepthThermal, HumanSegmentationRGBDepthThermal
+from tristar.models.deeplabv3 import HumanSegmentationDeepLabV3
+from tristar.models.multi_label_action import MultiLabelActionClassifier
+from tristar.models.dependent_action import DependentActionClassifier
+from tristar.models.unet import HumanSegmentationUnet
+from tristar.data.dataloaders import ActionClassificationRGBDepthThermal, HumanSegmentationRGBDepthThermal
 
 
 @click.command()

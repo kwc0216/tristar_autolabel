@@ -1,12 +1,11 @@
 import torch
 import torch.nn as nn
 import torch.nn.functional as F
-import pytorch_lightning as pl
 from torchmetrics import Accuracy, Precision, Recall
 import numpy as np
 from typing import List
 import os
-from multimodal.models.action import ActionClassifier
+from tristar.models.action import ActionClassifier
 
 
 class DependentActionClassifier(ActionClassifier):

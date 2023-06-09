@@ -3,7 +3,7 @@ import torch.nn as nn
 import torch.nn.functional as F
 import lightning as L
 from torchmetrics import Accuracy, Precision, Recall
-from multimodal.models.action import ActionClassifier
+from tristar.models.action import ActionClassifier
 
 class MultiLabelActionClassifier(ActionClassifier):
     def __init__(self, learning_rate=0.0001, rgb=True, depth=True, thermal=True):

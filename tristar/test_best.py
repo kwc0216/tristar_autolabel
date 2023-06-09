@@ -10,25 +10,20 @@ from lightning import Trainer
 from lightning.pytorch.callbacks import ModelCheckpoint
 from lightning.pytorch.loggers import WandbLogger
 
-from multimodal.models.deeplabv3 import HumanSegmentationDeepLabV3
-from multimodal.models.multi_label_action import MultiLabelActionClassifier
-from multimodal.models.movinet import ActionClassificationMoViNet
-from multimodal.models.unet import HumanSegmentationUnet
-from multimodal.models.dependent_action import DependentActionClassifier
-from multimodal.data.dataloaders import ActionClassificationRGBDepthThermal, HumanSegmentationRGBDepthThermal
+from tristar.models.deeplabv3 import HumanSegmentationDeepLabV3
+from tristar.models.multi_label_action import MultiLabelActionClassifier
+from tristar.models.unet import HumanSegmentationUnet
+from tristar.models.dependent_action import DependentActionClassifier
+from tristar.data.dataloaders import ActionClassificationRGBDepthThermal, HumanSegmentationRGBDepthThermal
 import wandb
 
 
-def test(task, architecture, rgb, depth, thermal, checkpoint_file, batch_size):
-    # here to remove weird warning
+def test(task, architecture, rgb, depth, thermal, checkpoint_file, batch_size, out_directory):
     torch.set_float32_matmul_precision('medium')
 
     # Initialize wandb logger
     name = f"{task}-{architecture}-{rgb}-{depth}-{thermal}"
     wandb_run = wandb.init(project="multimodal", name=name)
-    # wandb_logger = WandbLogger(
-    #     name=f"test-{task}-{architecture}-{rgb}-{depth}-{thermal}", project="multimodal"
-    # )
 
     # pass the logger to the Trainer
     trainer = L.Trainer(logger=WandbLogger())
@@ -72,16 +67,16 @@ def test(task, architecture, rgb, depth, thermal, checkpoint_file, batch_size):
     test_results = trainer.test(model, datamodule=data_module)
     
     # Write test results to a json file
-    with open(f"{name}_test_results.json", 'w') as outfile:
+    with open(f"{out_directory}/{name}_test_results.json", 'w') as outfile:
         json.dump(test_results, outfile)
-    # wandb_logger.finalize('success')
 
     wandb_run.finish()
 
 
 @click.command()
 @click.option('--checkpoint_dir', default='data/checkpoints', help='Directory of the checkpoint')
-def find_and_test_best_models(checkpoint_dir):
+@click.option('--out_directory', default='data', help='Directory of the checkpoint')
+def find_and_test_best_models(checkpoint_dir, out_directory):
     # Find all .ckpt files in the directory
     ckpt_files = glob.glob(f'{checkpoint_dir}/*/*.ckpt')
 
@@ -119,8 +114,7 @@ def find_and_test_best_models(checkpoint_dir):
             thermal = thermal == 'True'
             
             # Call test function
-            #    task, architecture, rgb, depth, thermal, checkpoint_dir, checkpoint_file, batch_size
-            test(task, architecture, rgb, depth, thermal, model, 8)
+            test(task, architecture, rgb, depth, thermal, model, 8, out_directory)
 
 
 if __name__ == '__main__':

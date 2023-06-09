@@ -8,7 +8,7 @@ from ..data.transforms import ActionListTransform, NormalizeListTransform, Norma
 
 class HumanSegmentationRGBDepthThermal(L.LightningDataModule):
 
-    def __init__(self, data_dir: str = 'data/split', batch_size: int = 8, rgb=True, depth=True, thermal=True):
+    def __init__(self, data_dir: str = 'data', batch_size: int = 8, rgb=True, depth=True, thermal=True):
         super().__init__()
         self.data_dir = data_dir
         self.batch_size = batch_size
@@ -69,7 +69,7 @@ class HumanSegmentationRGBDepthThermal(L.LightningDataModule):
 
 class ActionClassificationRGBDepthThermal(L.LightningDataModule):
 
-    def __init__(self, data_dir: str = 'data/split', batch_size: int = 8, rgb=True, depth=True, thermal=True):
+    def __init__(self, data_dir: str = 'data', batch_size: int = 8, rgb=True, depth=True, thermal=True):
         super().__init__()
         self.rgb = rgb
         self.depth = depth

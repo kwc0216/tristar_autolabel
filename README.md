@@ -1,13 +1,6 @@
-# Tristar: Support Code for [Your Dataset Paper]
+# Tristar: Support Code
 
-This repository contains the support code for "[Your Dataset Paper Title]" (link to the paper). The code will help you use and understand the data provided in the dataset.
-
-## Table of Contents
-1. [Installation](#installation)
-2. [Usage](#usage)
-3. [Examples](#examples)
-4. [Visualization](#visualization)
-5. [Citation](#citation)
+This repository contains the support code for "A Trimodal Dataset: RGB, Thermal, and Depth for Human Segmentation and Action Recognition". It contains data loaders as well as code for training and testing the described benchmark models.
 
 ## Installation
 
@@ -18,10 +11,38 @@ git clone https://github.com/anonymous/tristar.git
 cd tristar
 pip install -r requirements.txt
 ```
+
 ## Usage
 
-## Examples
+Download the dataset from [zenodo](https://zenodo.org/record/7996570), unpack and move it to data:
 
-## Visualization
+```
+mkdir data
+cd data
+wget https://zenodo.org/record/7996570/files/tristar.zip
+unzip tristar.zip
+cd ..
+```
 
-## Citation
+Create your environment and install the requirements, for example:
+
+```
+conda create -n tristar python=3.8
+conda activate tristar
+pip install -r requirements.txt
+```
+
+To run every valid model modality combination with 10 epochs use:
+
+```
+chmod +x train_all.sh
+./train_all.sh
+```
+
+Finally, to create json files with the test scores:
+
+```
+python -m tristar.test_best
+```
+
+

@@ -90,7 +90,7 @@ class MultiModalShotDataset(Dataset):
 
 class MultiModalDataset(Dataset):
 
-    def __init__(self, root='data/split',
+    def __init__(self, root='data',
                  split='train',
                  rgb=True, depth=True, thermal=True,
                  targets: List[str] = ['mask', 'actions'],
