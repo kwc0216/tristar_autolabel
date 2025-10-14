@@ -2,7 +2,7 @@ import torch
 import torch.nn as nn
 import torch.nn.functional as F
 import lightning as L
-from torchmetrics import Accuracy, Precision, Recall
+from torchmetrics import Accuracy, Precision, Recall, F1Score
 
 
 
@@ -15,14 +15,17 @@ class ActionClassifier(L.LightningModule):
         self.train_acc = Accuracy(num_labels=num_labels, task='multilabel')
         self.train_prec = Precision(num_labels=num_labels, task='multilabel')
         self.train_rec = Recall(num_labels=num_labels, task='multilabel')
+        self.train_f1 = F1Score(num_labels=num_labels, task='multilabel')
 
         self.val_acc = Accuracy(num_labels=num_labels, task='multilabel')
         self.val_prec = Precision(num_labels=num_labels, task='multilabel')
         self.val_rec = Recall(num_labels=num_labels, task='multilabel')
+        self.val_f1 = F1Score(num_labels=num_labels, task='multilabel')
 
         self.test_acc = Accuracy(num_labels=num_labels, task='multilabel')
         self.test_prec = Precision(num_labels=num_labels, task='multilabel')
         self.test_rec = Recall(num_labels=num_labels, task='multilabel')
+        self.test_f1 = F1Score(num_labels=num_labels, task='multilabel')
 
     def Conv3dBlock(self, in_channels, out_channels):
         return nn.Sequential(

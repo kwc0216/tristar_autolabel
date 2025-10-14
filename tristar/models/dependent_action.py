@@ -132,11 +132,15 @@ class DependentActionClassifier(ActionClassifier):
         loss = loss1 + loss2 + loss3
 
         # Update metrics
-        self.train_acc(torch.cat((outputs1, outputs2, outputs3), 1), torch.cat((targets1, targets2, targets3), 1))
-        self.train_prec(torch.cat((outputs1, outputs2, outputs3), 1), torch.cat((targets1, targets2, targets3), 1))
-        self.train_rec(torch.cat((outputs1, outputs2, outputs3), 1), torch.cat((targets1, targets2, targets3), 1))
+        outputs_all = torch.cat((outputs1, outputs2, outputs3), 1)
+        targets_all = torch.cat((targets1, targets2, targets3), 1)
 
-        self.log('train_loss', loss, on_step=True, on_epoch=True, logger=True)
+        self.train_acc(outputs_all, targets_all)
+        self.train_prec(outputs_all, targets_all)
+        self.train_rec(outputs_all, targets_all)
+        self.train_f1(outputs_all, targets_all)
+
+        self.log('train_loss', loss, on_step=False, on_epoch=True, logger=True)
         return loss
 
     def validation_step(self, batch, batch_idx):
@@ -150,11 +154,15 @@ class DependentActionClassifier(ActionClassifier):
         loss3 = F.cross_entropy(outputs3, torch.max(targets3, 1)[1])
         loss = loss1 + loss2 + loss3
 
-        self.val_acc(torch.cat((outputs1, outputs2, outputs3), 1), torch.cat((targets1, targets2, targets3), 1))
-        self.val_prec(torch.cat((outputs1, outputs2, outputs3), 1), torch.cat((targets1, targets2, targets3), 1))
-        self.val_rec(torch.cat((outputs1, outputs2, outputs3), 1), torch.cat((targets1, targets2, targets3), 1))
+        outputs_all = torch.cat((outputs1, outputs2, outputs3), 1)
+        targets_all = torch.cat((targets1, targets2, targets3), 1)
 
-        self.log('val_loss', loss, on_step=True, on_epoch=True, logger=True)
+        self.val_acc(outputs_all, targets_all)
+        self.val_prec(outputs_all, targets_all)
+        self.val_rec(outputs_all, targets_all)
+        self.val_f1(outputs_all, targets_all)
+
+        self.log('val_loss', loss, on_step=False, on_epoch=True, logger=True)
         return loss
 
     def test_step(self, batch, batch_idx):
@@ -168,11 +176,15 @@ class DependentActionClassifier(ActionClassifier):
         loss3 = F.cross_entropy(outputs3, torch.max(targets3, 1)[1])
         loss = loss1 + loss2 + loss3
 
-        self.test_acc(torch.cat((outputs1, outputs2, outputs3), 1), torch.cat((targets1, targets2, targets3), 1))
-        self.test_prec(torch.cat((outputs1, outputs2, outputs3), 1), torch.cat((targets1, targets2, targets3), 1))
-        self.test_rec(torch.cat((outputs1, outputs2, outputs3), 1), torch.cat((targets1, targets2, targets3), 1))
+        outputs_all = torch.cat((outputs1, outputs2, outputs3), 1)
+        targets_all = torch.cat((targets1, targets2, targets3), 1)
 
-        self.log('test_loss', loss, on_step=True, on_epoch=True, logger=True)
+        self.test_acc(outputs_all, targets_all)
+        self.test_prec(outputs_all, targets_all)
+        self.test_rec(outputs_all, targets_all)
+        self.test_f1(outputs_all, targets_all)
+
+        self.log('test_loss', loss, on_step=False, on_epoch=True, logger=True)
         return loss
 
     # def configure_optimizers(self):
@@ -205,13 +217,16 @@ class DependentActionClassifier(ActionClassifier):
         self.log('test_acc_epoch', self.test_acc.compute(), logger=True)
         self.log('test_prec_epoch', self.test_prec.compute(), logger=True)
         self.log('test_rec_epoch', self.test_rec.compute(), logger=True)
+        self.log('test_f1_epoch', self.test_f1.compute(), logger=True)
 
     def on_training_epoch_end(self):
         self.log('train_acc_epoch', self.train_acc.compute(), logger=True)
         self.log('train_prec_epoch', self.train_prec.compute(), logger=True)
         self.log('train_rec_epoch', self.train_rec.compute(), logger=True)
+        self.log('train_f1_epoch', self.train_f1.compute(), logger=True)
 
     def on_validation_epoch_end(self):
         self.log('val_acc_epoch', self.val_acc.compute(), logger=True)
         self.log('val_prec_epoch', self.val_prec.compute(), logger=True)
         self.log('val_rec_epoch', self.val_rec.compute(), logger=True)
+        self.log('val_f1_epoch', self.val_f1.compute(), logger=True)

@@ -12,7 +12,7 @@ class HumanSegmentationRGBDepthThermal(L.LightningDataModule):
         super().__init__()
         self.data_dir = data_dir
         self.batch_size = batch_size
-        self.num_workers = 16
+        self.num_workers = 0  # Set to 0 to avoid multiprocessing issues on Windows
         self.rgb = rgb
         self.depth = depth
         self.thermal = thermal
@@ -76,7 +76,7 @@ class ActionClassificationRGBDepthThermal(L.LightningDataModule):
         self.thermal = thermal
         self.data_dir = data_dir
         self.batch_size = batch_size
-        self.num_workers = 16
+        self.num_workers = 0  # Set to 0 to avoid multiprocessing issues on Windows
 
     def setup(self, stage: str):
         transform = transforms.Compose([
